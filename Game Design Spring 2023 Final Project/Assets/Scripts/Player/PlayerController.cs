@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
 
     void ground()
     {
-        grounded = Physics2D.Raycast(transform.position, Vector2.down, 0.6f, whatIsGround);
+        grounded = Physics2D.Raycast(transform.position, Vector2.down, 0.9f, whatIsGround);
 
         if(grounded)
         {
