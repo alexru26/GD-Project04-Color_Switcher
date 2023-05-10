@@ -18,8 +18,11 @@ public class PlayerSwitch : MonoBehaviour
     public Material active;
     public Material inactive;
 
+    Animator anim;
+
     void Start()
     {
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -33,6 +36,8 @@ public class PlayerSwitch : MonoBehaviour
         {
             if(red)
             {
+                anim.SetBool("Red", false);
+
                 red = false;
                 red_col.enabled = false;
                 red_rend.material = inactive;
@@ -41,6 +46,7 @@ public class PlayerSwitch : MonoBehaviour
             }
             else
             {
+                anim.SetBool("Red", true);
                 red = true;
                 red_col.enabled = true;
                 red_rend.material = active;

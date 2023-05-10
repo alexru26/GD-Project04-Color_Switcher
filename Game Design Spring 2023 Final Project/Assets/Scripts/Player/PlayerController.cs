@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
 
     private bool jumping = false;
     private bool grounded = true;
+    
+    Animator anim;
 
     [Header("References")]
     private Rigidbody2D rb;
@@ -27,6 +29,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -34,6 +37,7 @@ public class PlayerController : MonoBehaviour
         input();
         respawn();
         ground();
+        checkDirection();
     }
 
     void FixedUpdate() 
@@ -95,5 +99,10 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = new Vector2(-19f, 1f);
         }
+    }
+
+    void checkDirection()
+    {
+        anim.SetFloat("Direction", horizontalInput);
     }
 }
