@@ -11,14 +11,14 @@ public class PlayerController : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
 
+    private float lastMove = 1;
+
     [Header("Jump")]
     public float jumpForce;
     public LayerMask whatIsGround;
 
     private bool jumping = false;
     private bool grounded = true;
-    
-    Animator anim;
 
     [Header("References")]
     private Rigidbody2D rb;
@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -103,6 +102,10 @@ public class PlayerController : MonoBehaviour
 
     void checkDirection()
     {
-        anim.SetFloat("Direction", horizontalInput);
+        transform.localScale = new Vector3(lastMove, 1, 1);
+        if(horizontalInput != 0)
+        {
+            lastMove = horizontalInput;
+        }
     }
 }

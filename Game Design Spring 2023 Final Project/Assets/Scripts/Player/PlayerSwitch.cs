@@ -18,11 +18,8 @@ public class PlayerSwitch : MonoBehaviour
     public Material active;
     public Material inactive;
 
-    Animator anim;
-
     void Start()
     {
-        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -36,9 +33,9 @@ public class PlayerSwitch : MonoBehaviour
         {
             if(red)
             {
-                anim.SetBool("Red", false);
-
                 red = false;
+                GameObject.Find("LeftEye").GetComponent<SpriteRenderer>().color = new Color(29f/255f, 127f/255f, 226f/255f, 1);
+                GameObject.Find("RightEye").GetComponent<SpriteRenderer>().color = new Color(29f/255f, 127f/255f, 226f/255f, 1);
                 red_col.enabled = false;
                 red_rend.material = inactive;
                 blue_col.enabled = true;
@@ -46,8 +43,9 @@ public class PlayerSwitch : MonoBehaviour
             }
             else
             {
-                anim.SetBool("Red", true);
                 red = true;
+                GameObject.Find("LeftEye").GetComponent<SpriteRenderer>().color = new Color(150f/255f, 10f/255f, 10f/255f, 1);
+                GameObject.Find("RightEye").GetComponent<SpriteRenderer>().color = new Color(150f/255f, 10f/255f, 10f/255f, 1);
                 red_col.enabled = true;
                 red_rend.material = active;
                 blue_col.enabled = false;
