@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
@@ -23,6 +25,14 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     private Rigidbody2D rb;
 
+    public GameObject red_door_1;
+    public GameObject red_door_2;
+
+    public GameObject blue_door_1;
+    public GameObject blue_door_2;
+
+    private bool teleport = true;
+
     void Start()
     {
         // Start by setting up stuff
@@ -34,9 +44,13 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         input();
-        respawn();
         ground();
         checkDirection();
+
+        if(transform.position.y < -20)
+        {
+            respawn();
+        }
     }
 
     void FixedUpdate() 
@@ -94,10 +108,7 @@ public class PlayerController : MonoBehaviour
 
     void respawn()
     {
-        if(transform.position.y < -20)
-        {
-            transform.position = new Vector2(-19f, 1f);
-        }
+        transform.position = new Vector2(-19f, 1f);
     }
 
     void checkDirection()
@@ -107,5 +118,45 @@ public class PlayerController : MonoBehaviour
         {
             lastMove = horizontalInput;
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D col) {
+        if(col.gameObject.transform.parent.name == "spikes")
+        {
+            respawn();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D col) {
+        if(Input.GetButtonDown("Submit") && col.gameObject.CompareTag("black_door"))
+        {
+            SceneManager.LoadScene((int.Parse(SceneManager.GetActiveScene().name) + 1).ToString());
+        }
+        else if(col.gameObject.transform.parent.parent.name == "door" && Input.GetButton("Submit") && teleport)
+        {
+            teleport = false;
+            Invoke(nameof(resetTeleport), 1f);
+            if(col.gameObject.transform.parent.name == "red doors" && col.gameObject.name[9] == '1')
+            {
+                transform.position = red_door_2.transform.position;
+            }
+            else if(col.gameObject.transform.parent.name == "red doors")
+            {
+                transform.position = red_door_1.transform.position;
+            }
+            else if(col.gameObject.transform.parent.name == "blue doors" && col.gameObject.name[10] == '1')
+            {
+                transform.position = blue_door_2.transform.position;
+            }
+            else if(col.gameObject.transform.parent.name == "blue doors")
+            {
+                transform.position = blue_door_1.transform.position;
+            }
+        }
+    }
+
+    void resetTeleport()
+    {
+        teleport = true;
     }
 }

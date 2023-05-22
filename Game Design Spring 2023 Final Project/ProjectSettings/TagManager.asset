@@ -6,6 +6,7 @@ TagManager:
   tags:
   - blue
   - red
+  - black_door
   layers:
   - Default
   - TransparentFX
